@@ -1,4 +1,6 @@
+from turtle import title
 from typing import List
+import isbnlib
 from isbntools.app import*
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
@@ -152,11 +154,20 @@ def chat():
                     isbn=(input(""))
                     #print("The details of the book is ")
                     try:
-                        print(registry.bibformatters['labels'](meta(isbn)))
+                        book=isbnlib.meta(isbn)
+                        title=book['Title']
+                        author=book['Authors']
+                        #sell.append(title)
+                        #print(sell)
+                        print(title)
+                        print(author)
+
                         print("Is this the book you want to sell?  [y/n]")
                         res=input("")
                         if res=="y":
-                            print("The book will be queued to sell after you will upload the pictures of the book")
+                            sell.append(title)
+                            print("element of the list sell are")
+                            print(sell)
 
 
                         
@@ -167,7 +178,13 @@ def chat():
                     print("Enter the ISBN number")
                     isbn=(input(""))
                     try:
-                        print(registry.bibformatters['labels'](meta(isbn)))
+                        details=(registry.bibformatters['json'](meta(isbn)))
+                        print(details)
+                        with open('bookdata.json', 'w') as json_file:
+                            json.dump(details, json_file)
+                            print("file saved successfully")
+                        
+                        #print((registry.bibformatters['json'](meta(isbn))))
                         print("Is this the book you want to borrow?  [y/n]")
                         res=input("")
                         if res=="y":
@@ -176,9 +193,10 @@ def chat():
                     except:
                         print("No book found, cannot be borrowed")
 
-                elif n==4:
-                    print("")
+                #elif n==4:
+                    #print("")
 
+            
                 
                 
 
